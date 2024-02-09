@@ -7,6 +7,7 @@
 #include<vector>
 
 #include"WinApp.h"
+
 class DirectXCommon
 {
 private:
@@ -15,6 +16,9 @@ public:
 	void Initialize(WinApp*winApp);
 	void PreDraw();
 	void PostDraw();
+
+	ID3D12Device* GetDevice()const { return device.Get(); }
+	ID3D12GraphicsCommandList* GetCommandList()const { return commandList.Get(); }
 private:
 	void DeviceInitialize();
 	void CommandInitialize();
@@ -42,6 +46,7 @@ private:
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
 	ComPtr<ID3D12DescriptorHeap> dsvHeap;
 
+	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
 	ComPtr<ID3D12Fence> fence;
 	UINT64 fenceVal = 0;
 

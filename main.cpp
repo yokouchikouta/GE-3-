@@ -741,18 +741,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         dxCommon_->PreDraw();
         
         // プリミティブ形状の設定コマンド
-       dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+        dxCommon_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
         // パイプラインステートとルートシグネチャの設定コマンド
-       dxCommon_->GetCommandList()->SetPipelineState(pipelineState.Get());
-       dxCommon_->GetCommandList()->SetGraphicsRootSignature(rootSignature.Get());
+        dxCommon_->GetCommandList()->SetPipelineState(pipelineState.Get());
+        dxCommon_->GetCommandList()->SetGraphicsRootSignature(rootSignature.Get());
         // 頂点バッファビューの設定コマンド
-       dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
+        dxCommon_->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
         // インデックスバッファビューの設定コマンド
-       dxCommon_->GetCommandList()->IASetIndexBuffer(&ibView);
+        dxCommon_->GetCommandList()->IASetIndexBuffer(&ibView);
         // 定数バッファビュー(CBV)の設定コマンド
-       dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+        dxCommon_->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
         // SRVヒープの設定コマンド
-        ID3D12DescriptorHeap* descHeaps[] = {srvHeap.Get()};
+        ID3D12DescriptorHeap* descHeaps[] = { srvHeap.Get() };
         dxCommon_->GetCommandList()->SetDescriptorHeaps(1, descHeaps);
         // SRVヒープの先頭ハンドルを取得（SRVを指しているはず）
         D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
@@ -766,6 +766,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         {
             DrawObject3d(&object3ds[i], dxCommon_->GetCommandList(), vbView, ibView, _countof(indices));
         }
+
 
         // ４．描画コマンドここまで
         dxCommon_->PostDraw();
