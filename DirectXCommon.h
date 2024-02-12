@@ -5,7 +5,7 @@
 #include<dxgi1_6.h>
 
 #include<vector>
-
+#include<chrono>
 #include"WinApp.h"
 
 class DirectXCommon
@@ -26,6 +26,10 @@ private:
 	void RenderTargetInitialize();
 	void DepthBufferInitialize();
 	void FenceInitialize();
+
+	void  InitializeFixFPS();
+	void UpdateFixFPS();
+
 private:
 	WinApp* winApp = nullptr;
 	ComPtr<IDXGIFactory7> dxgiFactory;
@@ -51,5 +55,7 @@ private:
 	UINT64 fenceVal = 0;
 
 	D3D12_RESOURCE_BARRIER barrierDesc{};
+	//‹L˜^—pŽžŠÔŒv‘ª
+	std::chrono::steady_clock::time_point reference_;
 };
 

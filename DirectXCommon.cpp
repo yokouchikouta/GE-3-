@@ -1,7 +1,9 @@
 #include "DirectXCommon.h"
 
 
+
 #include <cassert>
+#include<thread>
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 
@@ -9,6 +11,9 @@ using namespace Microsoft::WRL;
 void DirectXCommon::Initialize(WinApp* winApp)
 {
     this->winApp = winApp;
+
+    InitializeFixFPS();
+
     DeviceInitialize();
        CommandInitialize();
     SwapChainInitialize();
@@ -23,7 +28,7 @@ void DirectXCommon::PreDraw()
     UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
 
     // １．リソースバリアで書き込み可能に変更
-    D3D12_RESOURCE_BARRIER barrierDesc{};
+  //  D3D12_RESOURCE_BARRIER barrierDesc{};
     barrierDesc.Transition.pResource = backBuffers[bbIndex].Get(); // バックバッファを指定
     barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT;      // 表示状態から
     barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態へ
@@ -91,7 +96,8 @@ void DirectXCommon::PostDraw()
         WaitForSingleObject(event, INFINITE);
         CloseHandle(event);
     }
-
+    //FPS固定処理
+    UpdateFixFPS();
     // キューをクリア
     result = commandAllocator->Reset();
     assert(SUCCEEDED(result));
@@ -321,4 +327,29 @@ void DirectXCommon::FenceInitialize()
 
     result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
     assert(SUCCEEDED(result));
+}
+
+void DirectXCommon::InitializeFixFPS()
+{
+    //現在時刻の記録
+    reference_ = std::chrono::steady_clock::now();
+}
+
+void DirectXCommon::UpdateFixFPS()
+{
+    const std::chrono::microseconds kMinTime(uint64_t(1000000.0f / 60.0f));
+    const std::chrono::microseconds kMinCheckTime(uint64_t(1000000.0f / 65.0f));
+    
+    //現在時刻の取得
+    std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+    //前回の記録から
+    std::chrono::microseconds elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - reference_);
+
+    if (elapsed < kMinCheckTime) {
+        while (std::chrono::steady_clock::now() - reference_ < kMinTime) {
+            std::this_thread::sleep_for(std::chrono::microseconds(1));
+        }
+    }
+
+    reference_ = std::chrono::steady_clock::now();
 }
