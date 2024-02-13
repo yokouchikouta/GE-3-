@@ -96,13 +96,14 @@ void SpriteCommon::Initialize(DirectXCommon*dxCommon)
 
 IDxcBlob* SpriteCommon::CompilerShader(const std::wstring& filePath, const wchar_t* profile, IDxcUtils* dxcUtils, IDxcCompiler3* dxcCompiler, IDxcIncludeHandler* includeHander)
 {
-	//hlsl
+	
 	IDxcBlobEncoding* shaderSource = nullptr;
 	HRESULT result = dxcUtils->LoadFile(filePath.c_str(),nullptr,&shaderSource);
 	assert(SUCCEEDED(result));
 
 	DxcBuffer shaderSourceBuffer;
 	shaderSourceBuffer.Ptr = shaderSource->GetBufferPointer();
+	shaderSourceBuffer.Size = shaderSource->GetBufferSize();
 	shaderSourceBuffer.Encoding = DXC_CP_UTF8;
 
 	LPCWSTR arguments[] = {
