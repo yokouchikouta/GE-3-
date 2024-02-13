@@ -16,18 +16,33 @@ void SpriteCommon::Initialize(DirectXCommon*dxCommon)
 
 	ComPtr<IDxcUtils> dxcUtils;
 	ComPtr<IDxcCompiler3> dxcCompiler;
+	ComPtr<IDxcIncludeHandler> includeHandler;
 	result = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils));
 	assert(SUCCEEDED(result));
 	result = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler));
 	assert(SUCCEEDED(result));
 
-	ComPtr<IDxcIncludeHandler> includeHandler;
+	
 	result = dxcUtils->CreateDefaultIncludeHandler(&includeHandler);
 	assert(SUCCEEDED(result));
 
 	//Rootsignature
 	D3D12_ROOT_SIGNATURE_DESC descriptorRootSignature{};
 	descriptorRootSignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+	//RootParamter
+	D3D12_ROOT_PARAMETER rootParameters[2]{};
+	//êF
+	rootParameters[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	rootParameters[0].Descriptor.ShaderRegister = 0;
+	//çsóÒ
+	rootParameters[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+	rootParameters[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+	rootParameters[1].Descriptor.ShaderRegister = 0;
+	
+	descriptorRootSignature.pParameters = rootParameters;
+	descriptorRootSignature.NumParameters = _countof(rootParameters);
+
 
 	ComPtr<ID3D10Blob> signatureBlob;
 	ComPtr<ID3D10Blob> errorBlob;
@@ -44,7 +59,7 @@ void SpriteCommon::Initialize(DirectXCommon*dxCommon)
 	D3D12_INPUT_ELEMENT_DESC inputElementDesc[1] = {};
 	inputElementDesc[0].SemanticName = "POSITION";
 	inputElementDesc[0].SemanticIndex = 0;
-	inputElementDesc[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	inputElementDesc[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	inputElementDesc[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 	D3D12_INPUT_LAYOUT_DESC inputLayoutDesc{};
 	inputLayoutDesc.pInputElementDescs = inputElementDesc;
@@ -62,11 +77,11 @@ void SpriteCommon::Initialize(DirectXCommon*dxCommon)
 
 
 	//ì«Ç›çûÇ›
-	ComPtr<IDxcBlob> vertexShaderBlob = CompilerShader(L"Resource/shader/SpriteVS.hlsl",
+	ComPtr<IDxcBlob> vertexShaderBlob = CompilerShader(L"Resources/shaders/SpriteVS.hlsl",
 		L"vs_6_0", dxcUtils.Get(), dxcCompiler.Get(), includeHandler.Get());
 	assert(SUCCEEDED(result));
 
-	ComPtr<IDxcBlob>pixelShaderBlob = CompilerShader(L"Resource/shader/SpritePS.hlsl",
+	ComPtr<IDxcBlob>pixelShaderBlob = CompilerShader(L"Resources/shaders/SpritePS.hlsl",
 		L"ps_6_0", dxcUtils.Get(), dxcCompiler.Get(), includeHandler.Get());
 	assert(SUCCEEDED(result));
 
@@ -110,8 +125,9 @@ IDxcBlob* SpriteCommon::CompilerShader(const std::wstring& filePath, const wchar
 	filePath.c_str(),
 	L"-E", L"main",
 	L"-T",profile,
-	L"-Zi",L"-Qembed_debag",
-	L"-Zpr",
+	L"-Zi",L"-Qembed_debug",
+	L"-Od",
+	L"-Zpr"
 	};
 	IDxcResult* shaderResult = nullptr;
 	result = dxcCompiler->Compile(
@@ -125,17 +141,13 @@ IDxcBlob* SpriteCommon::CompilerShader(const std::wstring& filePath, const wchar
 
 	IDxcBlobUtf8* shaderError = nullptr;
 	shaderResult->GetOutput(DXC_OUT_ERRORS, IID_PPV_ARGS(&shaderError),nullptr);
-	if (shaderError != nullptr && shaderError->GetStringPointer() != 0) {
-		assert(false);
-
-		IDxcBlob* shaderBlob = nullptr;
-		result=	shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(&shaderBlob), nullptr);
-		assert(SUCCEEDED(result));
-
-		shaderSource->Release();
-		shaderResult->Release();
-
-		return shaderBlob;
+	if (shaderError != nullptr && shaderError->GetStringLength() != 0) {
+		assert(false);	
 	}
-	return nullptr;
+	IDxcBlob* shaderBlob = nullptr;
+	result = shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(&shaderBlob), nullptr);
+	assert(SUCCEEDED(result));
+	shaderSource->Release();
+	shaderResult->Release();
+	return shaderBlob;
 }
