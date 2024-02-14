@@ -41,6 +41,8 @@ private:
 
 	//ディスクリプタヒープ作成
 	ID3D12DescriptorHeap* CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_TYPE heapType, UINT numDescripots,bool shaderVisible);
+public:
+	static const uint32_t kMaxSRVCount;
 private:
 	WinApp* winApp = nullptr;
 	ComPtr<IDXGIFactory7> dxgiFactory;

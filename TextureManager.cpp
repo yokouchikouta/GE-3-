@@ -16,3 +16,8 @@ void TextureManager::Finalize()
     delete instance;
     instance = nullptr;
 }
+
+//void TextureManager::Initialize()
+//{
+//    textureDatas.reserve(DirectXCommon::kMaxSRVCount);
+//}
