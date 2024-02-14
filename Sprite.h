@@ -77,7 +77,7 @@ private:
 	DirectX::XMFLOAT2 position = { 0,0 };
 	float rotation = 0;
 
-	DirectX::XMFLOAT2 size = { 1,1 };
+	DirectX::XMFLOAT2 size = { 512,512 };
 	//	kamera
 	Transform cameraTransform = { {1,1,1},{0,0,0},{0,0,-5} };
 };
