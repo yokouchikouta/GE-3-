@@ -16,9 +16,15 @@ private:
 		DirectX::XMFLOAT3 rotate;
 		DirectX::XMFLOAT3 translate;
 	};
-public:
-	void Initialize(DirectXCommon*dxCommon,SpriteCommon*common);
 
+	struct VertexData
+	{
+		DirectX::XMFLOAT4 position;
+		DirectX::XMFLOAT2 texcoord;
+	};
+public:
+	void Initialize(DirectXCommon* dxCommon, SpriteCommon* common);
+	void Update();
 	void Draw();
 private:
 
@@ -27,7 +33,7 @@ private:
 	void CreateMaterial();
 	//行列
 	void CreateWVP();
-	
+
 private:
 	DirectXCommon* dxCommon_ = nullptr;
 	SpriteCommon* common_ = nullptr;
@@ -42,12 +48,15 @@ private:
 	//行列
 	ComPtr<ID3D12Resource> wvpResource;
 	DirectX::XMMATRIX* wvpData = nullptr;
+
+	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU;
+
 	//パラメーター
-	DirectX::XMFLOAT4 color_ = { 1.0f,0.0f,0.0f,1.0f };
-	                        //scal   ROtate  translate
+	DirectX::XMFLOAT4 color_ = { 1.0f,1.0f,1.0f,1.0f };
+	//scal   ROtate  translate
 	Transform transform = { {1,1,1},{0,0,0},{0,0,0} };
 
 	//	kamera
 	Transform cameraTransform = { {1,1,1},{0,0,0},{0,0,-5} };
-
+};
 
