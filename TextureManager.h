@@ -21,11 +21,20 @@ public:
 
     //‰æ‘œ“Ç‚İ‚İ
      void  LoadTexture(const std::wstring& filePath);
+     //w’è‚µ‚½‰æ‘œ‚ª‰½”Ô–Ú‚É‚ ‚é‚Ì‚©
+     uint32_t GetTextureIndexFilePath(const std::wstring& filePath);
+
+     //ƒnƒ“ƒhƒ‹‚ğó‚¯æ‚é
+     D3D12_GPU_DESCRIPTOR_HANDLE GetSrvHandleGPU(uint32_t textureIndex);
+
+private:
      //“Ç‚İ‚ñ‚¾‰æ‘œ‚ğGPU
      void UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
-private:
+
 private:
     static TextureManager* instance;
+    static uint32_t kSRVIndexTop;
+
 
     TextureManager() = default;
     ~TextureManager() = default;

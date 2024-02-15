@@ -28,7 +28,7 @@ private:
 		DirectX::XMMATRIX uvTransform;
 	};
 public:
-	void Initialize(DirectXCommon* dxCommon, SpriteCommon* common);
+	void Initialize(DirectXCommon* dxCommon, SpriteCommon* common,std::wstring textureFilePath);
 	void Update();
 	void Draw();
 	//Getter
@@ -78,6 +78,8 @@ private:
 	float rotation = 0;
 
 	DirectX::XMFLOAT2 size = { 512,512 };
+	//‰æ‘œ•Û‘¶‚³‚ê‚Ä‚¢‚éêŠ
+	uint32_t textureIndex_ = 0;
 	//	kamera
 	Transform cameraTransform = { {1,1,1},{0,0,0},{0,0,-5} };
 };
