@@ -36,10 +36,33 @@ public:
 	float GetRotation()             { return rotation; }
 	DirectX::XMFLOAT4 GetColor()    { return color_; }
 	DirectX::XMFLOAT2 Getsize() { return size; }
+	//アンカーポイント
+	DirectX::XMFLOAT2 GetAnchorPoint() { return anchorPoint; }
+	//左右反転
+	bool GetFlipX() { return isFlipX; }
+	//上下反転
+	bool GetFlipY() { return isFlipY; }
+	
+	DirectX::XMFLOAT2 GetTextureLeftTop() { return textureLeftTop; }
+	DirectX::XMFLOAT2 GetTextureSize() { return textureSize; }
+
+
+
 	void SetPosition(DirectX::XMFLOAT2 pos) { position = pos; }
 	void SetRotation(float rot)             { rotation = rot; }
 	void SetColor(DirectX::XMFLOAT4 color) { color_ = color; }
 	void SetSize(DirectX::XMFLOAT2 size) { this->size = size; }
+
+	//アンカーポイント
+	void SetAnchorPoint(DirectX::XMFLOAT2 anchor) { anchorPoint = anchor; }
+
+
+	void SetFlipX(bool isFlag) { isFlipX = isFlag; }
+	void SetFlipY(bool isFlag) { isFlipY = isFlag; }
+
+	void SetTextureLeftTop(DirectX::XMFLOAT2 value) { textureLeftTop = value; }
+	void SetTextureSize(DirectX::XMFLOAT2 size) { textureSize = size; }
+
 
 	void SetTexture(std::wstring textureFilePath);
 	
@@ -51,6 +74,8 @@ private:
 	void CreateMaterial();
 	//行列
 	void CreateWVP();
+	void AdujustTextureSize();
+
 
 private:
 	DirectXCommon* dxCommon_ = nullptr;
@@ -80,7 +105,19 @@ private:
 	DirectX::XMFLOAT2 position = { 0,0 };
 	float rotation = 0;
 
+
 	DirectX::XMFLOAT2 size = { 512,512 };
+	//アンカー
+	DirectX::XMFLOAT2 anchorPoint = { 0.5f,0.5f };
+
+	//左右
+	bool isFlipX = false;
+	//上下反転
+	bool isFlipY = false;
+
+	//切り抜き
+	DirectX::XMFLOAT2 textureLeftTop = { 0,0 };
+	DirectX::XMFLOAT2 textureSize = { 0,0 };
 	//画像保存されている場所
 	uint32_t textureIndex_ = 0;
 	//	kamera

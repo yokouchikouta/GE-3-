@@ -27,6 +27,8 @@ public:
      //ハンドルを受け取る
      D3D12_GPU_DESCRIPTOR_HANDLE GetSrvHandleGPU(uint32_t textureIndex);
 
+     //メタデータ
+     const DirectX::TexMetadata& GetMetaData(uint32_t textureIndex);
 private:
      //読み込んだ画像をGPU
      void UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
