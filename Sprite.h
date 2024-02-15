@@ -113,7 +113,7 @@ private:
 	//¶‰E
 	bool isFlipX = false;
 	//ã‰º”½“]
-	bool isFlipY = false;
+	bool isFlipY =true;
 
 	//Ø‚è”²‚«
 	DirectX::XMFLOAT2 textureLeftTop = { 0,0 };

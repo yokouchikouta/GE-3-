@@ -42,7 +42,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         Sprite* temp = new Sprite();
        if(i%2 ==0) temp->Initialize(dxCommon_, spriteCommon,L"Resources/mario.jpg");
         else if(i%2 ==1) temp->Initialize(dxCommon_, spriteCommon, L"Resources/reimu.png");
-        temp->SetPosition({(float)i*120,0});
+        temp->SetPosition({600,300});
         sprite.push_back(temp);
     }
     

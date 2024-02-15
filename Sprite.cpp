@@ -31,16 +31,16 @@ void Sprite::Update()
 	transform.scale = { size.x,size.y,1.0f };
 
 	//アンカーポイント
-	float left = 0.0f-anchorPoint.x;
+	float left  = 0.0f-anchorPoint.x;
 	float right = 1.0f-anchorPoint.x;
-	float top = 0.0f-anchorPoint.y;
-	float bottom = 1.0f-anchorPoint.y;
+	float top   = 0.0f-anchorPoint.y;
+	float bottom= 1.0f-anchorPoint.y;
 	//フリップ
-	if (isFlipX = true) {
+	if (isFlipX == true) {
 		left = -left;
 		right = -right;
 	}
-	if (isFlipY = true) {
+	if (isFlipY == true) {
 		top = -top;
 		bottom = -bottom;
 	}
