@@ -17,7 +17,13 @@ public:
     static TextureManager* GetInstance();
     void Finalize();
 
-    void Initialize();
+    void Initialize(DirectXCommon* dxCommon);
+
+    //‰æ‘œ“Ç‚İ‚İ
+     void  LoadTexture(const std::wstring& filePath);
+     //“Ç‚İ‚ñ‚¾‰æ‘œ‚ğGPU
+     void UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
+private:
 private:
     static TextureManager* instance;
 
@@ -26,7 +32,8 @@ private:
     TextureManager(TextureManager&) = delete;
     TextureManager& operator=(TextureManager&) = delete;
 private:
-   // std::vector<TextureData>textureDatas;
+    DirectXCommon* dxCommon_ = nullptr;
+    std::vector<TextureData>textureDatas;
 };
 
 

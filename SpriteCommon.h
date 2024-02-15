@@ -18,10 +18,8 @@ public:
 	//Getter
 	ID3D12RootSignature* GetRootSignature() { return rootSignature.Get(); }
 	ID3D12PipelineState* GetPipelineState() { return pipelineState.Get(); }
-	//‰æ‘œ“Ç‚İ‚İ
-	DirectX::ScratchImage LoadTexture(const std::wstring& filePath);
-	//“Ç‚İ‚ñ‚¾‰æ‘œ‚ğGPU
-	void UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
+	
+
 private:
 	static IDxcBlob* CompilerShader(
 		const std::wstring& fillePath,

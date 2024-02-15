@@ -67,7 +67,7 @@ private:
 	ComPtr<ID3D12Resource> wvpResource;
 	DirectX::XMMATRIX* wvpData = nullptr;
 
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU;
+	
 
 	//パラメーター
 	DirectX::XMFLOAT4 color_ = { 1.0f,1.0f,1.0f,1.0f };
