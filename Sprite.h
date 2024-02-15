@@ -40,6 +40,9 @@ public:
 	void SetRotation(float rot)             { rotation = rot; }
 	void SetColor(DirectX::XMFLOAT4 color) { color_ = color; }
 	void SetSize(DirectX::XMFLOAT2 size) { this->size = size; }
+
+	void SetTexture(std::wstring textureFilePath);
+	
 private:
 
 	void CreateVertex();
